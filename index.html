@@ -1,5 +1,5 @@
-
-
+<!-- Alex Krebs-->
+<!-- Geog576 Lab4-->
 <!DOCTYPE html>
  <html>
   <head>
@@ -8,7 +8,7 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
 
     <title>Data Collector for AGOL</title>
-
+<!--Style page and button-->
     <style>
         html,
         body,
@@ -44,30 +44,32 @@
 
   </head>
   <body>
+    <!--add Survey to the add record button-->
     <a href="https://arcg.is/1HbSGf" target = "_blank" class="addRecordBtn">Add Record</a>
     <div id="viewDiv"></div>
+    <!--Load ESRI modules to map-->
     <script>
         require([ "esri/config", "esri/Map", "esri/views/MapView","esri/widgets/Locate", "esri/widgets/Search", "esri/layers/FeatureLayer" ], (esriConfig, Map, MapView, Locate, Search, FeatureLayer) => {
-
+            //my api key
             esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurGfXZVUftvXPbMTy0-GRI5ojxO2vkMfNJUc6LuBspKHa7_8adflxgEqdwsbZT_y64VwrYucfHRmak8KqEqK9KojibVke2tZigq1P4aWdi2ARSVyPCfBRuJPzRCNXkKqmMNKADPP407Mua44OxDb8aE4N4-3Rp6rAphNctReWb-FZ2fqziGxRK72mw3mmQSZtV-5YfnA0EHXD4rWw1OwRwQU-VcnibfCw_FYsDSK_eK6lAT1_77qtARkK";
-
+            //ESRI satellite imagery basemap
             const map = new Map({
                 basemap: "satellite"
             });
-
+            //map parameters 
             const view = new MapView({
                 container: "viewDiv", // Reference to the DOM node that will contain the view
                  map: map, // References the map object
                  center: [-90.3693, 43.7930],
                  zoom: 14 
              });
-
+             //data layer from my survey
             const layer = new FeatureLayer({
                 url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/survey123_c286b21ab4a3404fb25d92894d67e263_results/FeatureServer"
             });
 
             map.add(layer);
-
+            //locate button and button location
             const locateBtn = new Locate({
                 view: view
             });
@@ -75,7 +77,7 @@
             view.ui.add(locateBtn, {
                 position: "top-left"
             });
-
+            //search address widget and location
             const searchWidget = new Search ({
                 view: view
             });
