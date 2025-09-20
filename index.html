@@ -21,8 +21,10 @@
     <!--importing the css and libraries for esri.js-->
     <link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css" />
     <script src="https://js.arcgis.com/4.26/"></script>
-
-    <!-- loading the modules-->
+    
+  </head>
+  <body>
+    <div id="viewDiv"></div>
     <script>
         require([ "esri/config", "esri/Map", "esri/views/MapView" ], (esriConfig, Map, MapView) => {
 
@@ -38,9 +40,5 @@
              });
         });
       </script>
-
-  </head>
-  <body>
-    <div id="viewDiv"></div>
   </body>
 </html>
