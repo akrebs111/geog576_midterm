@@ -63,8 +63,16 @@
                  zoom: 14 
              });
              //data layer from my survey
-            const layer = new FeatureLayer({
-                url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Damage_Assessment_Data_Review/FeatureServer"
+            const layerUrls = [
+                "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Damage_Assessment_Data_Review/FeatureServer/0",
+                "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Damage_Assessment_Data_Review/FeatureServer/1",
+                "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Damage_Assessment_Data_Review/FeatureServer/2"
+                ];
+
+            const featureLayers = layerUrls.map(url => {
+                const fl = new FeatureLayer({ url: url });
+                map.add(fl);
+                return fl;
             });
 
             map.add(layer);
@@ -86,16 +94,14 @@
             });
             // Editor widget
             const editor = new Editor({
-            view: view,
-                layerInfos: [
-                    {
+                view: view,
+                layerInfos: featureLayers.map(layer => ({
                     layer: layer,
                     enableEditing: true,
                     enableCreate: true,
                     enableUpdate: true,
                     enableDelete: true
-                    }
-                ]
+                }))
             });
     // Add editor to view and hide it initially
             view.ui.add(editor, "top-right");
