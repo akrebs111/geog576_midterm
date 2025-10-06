@@ -106,24 +106,28 @@
                 url: "https://services1.arcgis.com/FDsAtKBk8Hy4cAH0/arcgis/rest/services/WI_Cities_Towns_Villages_July_2025/FeatureServer/0",
                 title: "WI Cities, Towns & Villages",
                 renderer: ctvRenderer,
-                opacity: 0.5 // optional: make it semi-transparent
+                opacity: 1,
+                labelingInfo: [
+                    {
+                    labelExpressionInfo: {
+                        expression: "$feature.Label"
+                    },
+                    symbol: {
+                        type: "text", //
+                        color: "black",
+                        haloColor: "white",
+                        haloSize: "1px",
+                        font: {
+                        size: 12,
+                        family: "Arial",
+                        weight: "bold"
+                        }
+                    },
+                    labelPlacement: "always-horizontal"
+                    }
+                ],
+                labelsVisible: true
                 });
-
-                map.add(ctvLayer);
-
-            const public_assistance_Renderer = {
-                type: "simple",
-                symbol: {
-                type: "simple-marker",
-                style: "circle",
-                color: "blue",
-                size: 10,
-                outline: {
-                    color: "white",
-                    width: 1
-                }
-              }
-            };
 
             const individual_assistance_Renderer = {
                 type: "simple",
