@@ -60,7 +60,7 @@
                 container: "viewDiv", // Reference to the DOM node that will contain the view
                  map: map, // References the map object
                  center: [-89, 44], 
-                 zoom: 7 
+                 zoom: 10 
              });
              //data layer from my survey
             const layerUrls = [
@@ -174,14 +174,15 @@
                     weight: "bold"
                     }
                 },
-                minScale: 2000000,
-                maxScale: 30000
+                minScale: 3000000,
+                maxScale: 0
                 };
 
             const countyBoundariesLayer = new FeatureLayer({
             url: "https://services5.arcgis.com/Ul9AyFFeFTjf08DW/arcgis/rest/services/Wisconsin_County_Boundaries_24K/FeatureServer/0",
             title: "County Boundaries",
-            renderer: countyBoundaryRenderer,
+            renderer: countyBoundaryRenderer, 
+            labelingInfo: [countyLabelClass],
             opacity: 1
             });
 
