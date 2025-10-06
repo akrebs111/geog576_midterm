@@ -73,7 +73,7 @@
                 field: "CTV",
                 uniqueValueInfos: [
                     {
-                    value: "C",
+                    value: "City",
                     symbol: {
                         type: "simple-fill",
                         color: [0, 0, 0, 0],
@@ -113,7 +113,7 @@
                         expression: "$feature.Label"
                     },
                     symbol: {
-                        type: "text", //
+                        type: "text", // TextSymbol
                         color: "black",
                         haloColor: "white",
                         haloSize: "1px",
@@ -123,11 +123,26 @@
                         weight: "bold"
                         }
                     },
-                    labelPlacement: "always-horizontal"
+                    labelPlacement: "center-center" // FIXED from always-horizontal
                     }
                 ],
                 labelsVisible: true
                 });
+                map.add(ctvLayer);
+
+            const public_assistance_Renderer = {
+                type: "simple",
+                symbol: {
+                type: "simple-marker",
+                style: "circle",
+                color: "blue",
+                size: 10,
+                outline: {
+                    color: "white",
+                    width: 1
+                }
+              }
+            };
 
             const individual_assistance_Renderer = {
                 type: "simple",
