@@ -66,14 +66,50 @@
             const layerUrls = [
                 "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Damage_Assessment_Data_Review/FeatureServer/0",
                 "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Damage_Assessment_Data_Review/FeatureServer/1",
-                "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Damage_Assessment_Data_Review/FeatureServer/2"
-                ];
+            ];
 
-            const featureLayers = layerUrls.map(url => {
-                const fl = new FeatureLayer({ url: url });
-                map.add(fl);
-                return fl;
-            });
+            const public_assistance_Renderer = {
+                type: "simple",
+                symbol: {
+                type: "simple-marker",
+                style: "circle",
+                color: "blue",
+                size: 10,
+                outline: {
+                    color: "white",
+                    width: 1
+                }
+              }
+            };
+
+            const individual_assistance_Renderer = {
+                type: "simple",
+                symbol: {
+                type: "simple-marker",
+                style: "square",
+                color: "red",
+                size: 10,
+                outline: {
+                    color: "white",
+                    width: 1
+                }
+              }
+            };
+
+            const featureLayers = layerUrls.map((url, index) => {
+                const options = { url: url };
+
+                // Assign renderer based on layer index
+                if (index === 0) {
+                    options.renderer = public_assistance_Renderer;
+                } else if (index === 1) {
+                    options.renderer = individual_assistance_Renderer;
+                }
+
+                const layer = new FeatureLayer(options);
+                map.add(layer);
+                return layer;
+                });
 
             //locate button and button location
             const locateBtn = new Locate({
@@ -112,7 +148,6 @@
                 editor.visible = !editor.visible;
                 editButton.textContent = editor.visible ? "Hide Editor" : "Add / Edit Data";
             });
-        });
       </script>
   </body>
 </html>
