@@ -146,6 +146,47 @@
                 });
                 map.add(ctvLayer);
 
+            
+
+           const countyBoundaryRenderer = {
+                type: "simple",
+                symbol: {
+                    type: "simple-fill",
+                    color: [0, 0, 0, 0], // Transparent fill
+                    outline: {
+                    color: "black",
+                    width: 1.5,
+                    style: "dash"
+                    }
+                }
+                };
+
+                const countyLabelClass = {
+                labelExpressionInfo: { expression: "$feature.CTY_NAME" },
+                symbol: {
+                    type: "text",
+                    color: "black",
+                    haloColor: "white",
+                    haloSize: "1.5px",
+                    font: {
+                    family: "Arial",
+                    size: 16,
+                    weight: "bold"
+                    }
+                },
+                minScale: 0,
+                maxScale: 100000
+                };
+
+            const countyBoundariesLayer = new FeatureLayer({
+            url: "https://services5.arcgis.com/Ul9AyFFeFTjf08DW/arcgis/rest/services/Wisconsin_County_Boundaries_24K/FeatureServer/0",
+            title: "County Boundaries",
+            renderer: countyBoundaryRenderer,
+            opacity: 1
+            });
+
+            map.add(countyBoundariesLayer);
+
             const public_assistance_Renderer = {
                 type: "simple",
                 symbol: {
@@ -204,6 +245,10 @@
                     {
                     layer: ctvLayer,
                     title: "Cities, Towns and Villages"
+                    },
+                    {
+                    layer: countyBoundariesLayer,
+                    title: "County Boundaries"
                     }
                 ]
             });
