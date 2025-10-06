@@ -1,3 +1,5 @@
+<!--add locate my position button, make mobile friendly-->
+
 
 <!DOCTYPE html>
  <html>
@@ -16,6 +18,7 @@
             margin: 0;
             height: 100%;
             width: 100%;
+            font-family: Arial, sans-serif;
         }
         .editDataBtn {
             position: absolute;
@@ -34,6 +37,65 @@
         .addRecordBtn:hover {
             background-color: #005a87;
         }
+
+        #layerListToggleBtn:hover {
+            background-color: #005a87;
+        }
+
+        .esri-layer-list {
+            bottom: 50px !important; /* leave space for toggle button */
+            top: auto !important;
+            left: 10px !important;
+            right: auto !important;
+            max-height: 300px;
+            overflow-y: auto;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            border-radius: 4px;
+            background: white;
+        }
+
+        .esri-search {
+            top: 10px !important;
+            left: 10px !important;
+            right: auto !important;
+            bottom: auto !important;
+            max-width: 300px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            border-radius: 4px;
+        }
+
+        .esri-widget--button.esri-locate {
+            top: 60px !important; /* below search */
+            left: 10px !important;
+            right: auto !important;
+            bottom: auto !important;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            border-radius: 4px;
+        }
+
+            @media (max-width: 480px) {
+        .editDataBtn {
+            top: 8px;
+            right: 8px;
+            padding: 8px 14px;
+            font-size: 13px;
+        }
+        #layerListToggleBtn {
+            bottom: 8px;
+            left: 8px;
+            padding: 6px 12px;
+            font-size: 13px;
+        }
+        .esri-layer-list {
+            max-height: 200px;
+            bottom: 45px !important;
+            left: 8px !important;
+            max-width: 90vw;
+        }
+        .esri-search {
+            max-width: 90vw;
+        }
+        }
      </style>
 
     <!--importing the css and libraries for esri.js-->
@@ -44,7 +106,7 @@
   <body>
     <!--button to edit or add data-->
     <button id="editDataBtn" class="editDataBtn">Add / Edit Data</button>
-    
+    <button id="layerListToggleBtn">Hide Layers</button>
     <div id="viewDiv"></div>
     <!--Load ESRI modules to map-->
     <script>
@@ -260,7 +322,7 @@
                 view: view,
                 });
 
-                view.ui.add(layerList, "top-left"); 
+                view.ui.add(layerList, "bottom-left"); 
 
             //locate button and button location
             const locateBtn = new Locate({
@@ -276,7 +338,7 @@
             });
 
             view.ui.add(searchWidget, {
-                position: "bottom-left"
+                position: "top-left"
             });
             // Editor widget
             const editor = new Editor({
@@ -299,6 +361,19 @@
                 editor.visible = !editor.visible;
                 editButton.textContent = editor.visible ? "Hide Editor" : "Add / Edit Data";
             });
+
+             const layerListToggleBtn = document.getElementById("layerListToggleBtn");
+                let layerListVisible = true;
+                layerListToggleBtn.addEventListener("click", () => {
+                    layerListVisible = !layerListVisible;
+                    if (layerListVisible) {
+                    view.ui.add(layerList, "bottom-left");
+                    layerListToggleBtn.textContent = "Hide Layers";
+                    } else {
+                    view.ui.remove(layerList);
+                    layerListToggleBtn.textContent = "Show Layers";
+                    }
+                });
         });
       </script>
   </body>
