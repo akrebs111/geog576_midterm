@@ -113,7 +113,7 @@
                         expression: "$feature.Label"
                     },
                     symbol: {
-                        type: "text", // TextSymbol
+                        type: "text",
                         color: "black",
                         haloColor: "white",
                         haloSize: "1px",
@@ -123,7 +123,10 @@
                         weight: "bold"
                         }
                     },
-                    labelPlacement: "center-center" // FIXED from always-horizontal
+                    labelPlacement: "center-center",
+                    minScale: 70000,
+                    maxScale: 4500
+
                     }
                 ],
                 labelsVisible: true
