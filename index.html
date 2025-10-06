@@ -43,7 +43,9 @@
 
   </head>
   <body>
-    <!--add Survey to the add record button-->
+    <!--button to edit or add data-->
+    <button id="editDataBtn" class="editDataBtn">Add / Edit Data</button>
+    
     <div id="viewDiv"></div>
     <!--Load ESRI modules to map-->
     <script>
@@ -83,6 +85,29 @@
             view.ui.add(searchWidget, {
                 position: "bottom-left"
             });
+            // Editor widget
+            const editor = new Editor({
+            view: view,
+            layerInfos: [
+                {
+                layer: layer,
+                enableEditing: true,
+                enableCreate: true,
+                enableUpdate: true,
+                enableDelete: true
+                }
+            ]
+            });
+
+            // Add editor widget to the view but keep it hidden initially
+            view.ui.add(editor, "top-right");
+            editor.visible = false;
+
+            // Toggle editor visibility with the button
+            const editButton = document.getElementById("editDataBtn");
+            editButton.addEventListener("click", () => {
+            editor.visible = !editor.visible;
+            editButton.textContent = editor.visible ? "Hide Editor" : "Add / Edit Data";
         });
       </script>
   </body>
