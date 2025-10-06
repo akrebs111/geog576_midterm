@@ -168,7 +168,6 @@
                     },
                     label: "Town"
                     }
-                    // No entry for Town = not shown
                 ]
                 };
 
@@ -356,19 +355,6 @@
                 editor.visible = !editor.visible;
                 editButton.textContent = editor.visible ? "Hide Editor" : "Add / Edit Data";
             });
-
-             const layerListToggleBtn = document.getElementById("layerListToggleBtn");
-                let layerListVisible = true;
-                layerListToggleBtn.addEventListener("click", () => {
-                    layerListVisible = !layerListVisible;
-                    if (layerListVisible) {
-                    view.ui.add(layerList, "bottom-left");
-                    layerListToggleBtn.textContent = "Hide Layers";
-                    } else {
-                    view.ui.remove(layerList);
-                    layerListToggleBtn.textContent = "Show Layers";
-                    }
-                });
         });
       </script>
   </body>
