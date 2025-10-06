@@ -68,6 +68,49 @@
                 "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Damage_Assessment_Data_Review/FeatureServer/1",
             ];
 
+            const ctvRenderer = {
+                type: "unique-value",
+                field: "CTV",
+                uniqueValueInfos: [
+                    {
+                    value: "City",
+                    symbol: {
+                        type: "simple-fill",
+                        color: [0, 0, 0, 0],
+                        outline: {
+                        color: "yellow",
+                        width: 2,
+                        style: "dash"
+                        }
+                    },
+                    label: "City"
+                    },
+                    {
+                    value: "Village",
+                    symbol: {
+                        type: "simple-fill",
+                        color: [0, 0, 0, 0],
+                        outline: {
+                        color: "yellow",
+                        width: 2,
+                        style: "dash"
+                        }
+                    },
+                    label: "Village"
+                    }
+                    // No entry for Town = not shown
+                ]
+                };
+
+            const ctvLayer = new FeatureLayer({
+                url: "https://services1.arcgis.com/FDsAtKBk8Hy4cAH0/arcgis/rest/services/WI_Cities_Towns_Villages_July_2025/FeatureServer/0",
+                title: "WI Cities, Towns & Villages",
+                renderer: ctvRenderer,
+                opacity: 0.5 // optional: make it semi-transparent
+                });
+
+                map.add(ctvLayer);
+
             const public_assistance_Renderer = {
                 type: "simple",
                 symbol: {
@@ -96,6 +139,7 @@
               }
             };
 
+            
             const featureLayers = layerUrls.map((url, index) => {
                 const options = { url: url };
 
@@ -121,12 +165,16 @@
                     {
                     layer: featureLayers[1],
                     title: "Individual Assistance"
+                    },
+                    {
+                    layer: ctvLayer,
+                    title: "Cities, Towns and Villages"
                     }
                 ]
             });
 
             view.ui.add(legend, "bottom-right");
-            
+
             //locate button and button location
             const locateBtn = new Locate({
                 view: view
