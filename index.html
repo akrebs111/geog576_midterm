@@ -115,12 +115,12 @@
   <body>
     <!--button to edit or add data-->
     <button id="editDataBtn" class="editDataBtn">Add / Edit Data</button>
-    <button id="legendToggleBtn" class="editDataBtn" style="left: 10px; right: auto;">Hide Legend</button>
+    <button id="legendToggleBtn" class="editDataBtn" style="position: absolute; bottom: 100px; right: 10px;">Show Legend</button>
 
     <div id="viewDiv"></div>
     <!--Load ESRI modules to map-->
     <script>
-        require([ "esri/config", "esri/Map", "esri/views/MapView","esri/widgets/Locate", "esri/widgets/Search", "esri/layers/FeatureLayer", "esri/widgets/Editor", "esri/widgets/Legend", "esri/widgets/LayerList", "esri/widgets/BasemapToggle"  ], (esriConfig, Map, MapView, Locate, Search, FeatureLayer, Editor, Legend, LayerList, BasemapToggle) => {
+        require([ "esri/config", "esri/Map", "esri/views/MapView","esri/widgets/Locate", "esri/widgets/Search", "esri/layers/FeatureLayer", "esri/widgets/Editor", "esri/widgets/Legend", "esri/widgets/LayerList", "esri/widgets/BasemapGallery"  ], (esriConfig, Map, MapView, Locate, Search, FeatureLayer, Editor, Legend, LayerList, BasemapGallery) => {
             //my api key
             esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurGfXZVUftvXPbMTy0-GRI5ojxO2vkMfNJUc6LuBspKHa7_8adflxgEqdwsbZT_y64VwrYucfHRmak8KqEqK9KojibVke2tZigq1P4aWdi2ARSVyPCfBRuJPzRCNXkKqmMNKADPP407Mua44OxDb8aE4N4-3Rp6rAphNctReWb-FZ2fqziGxRK72mw3mmQSZtV-5YfnA0EHXD4rWw1OwRwQU-VcnibfCw_FYsDSK_eK6lAT1_77qtARkK";
             //ESRI satellite imagery basemap
@@ -349,6 +349,16 @@
             view.ui.add(searchWidget, {
                 position: "top-left"
             });
+
+            const basemapGallery = new BasemapGallery({
+                view: view
+                });
+
+                view.ui.add(basemapGallery, {
+                position: "top-left",
+                index: 0 
+                });
+
             // Editor widget
             const editor = new Editor({
                 view: view,
@@ -361,16 +371,17 @@
                 }))
             });
 
+
             const legendToggleBtn = document.getElementById("legendToggleBtn");
             legendToggleBtn.addEventListener("click", () => {
-                const isVisible = view.ui.find("legend") != null;
-                if (isVisible) {
-                    view.ui.remove("legend");
-                    legendToggleBtn.textContent = "Show Legend";
-                } else {
-                    view.ui.add(legend, { position: "bottom-right", id: "legend" });
-                    legendToggleBtn.textContent = "Hide Legend";
-                }
+            const legendExists = view.ui.find("legend") != null;
+            if (legendExists) {
+                view.ui.remove("legend");
+                legendToggleBtn.textContent = "Show Legend";
+            } else {
+                view.ui.add(legend, { position: "bottom-right", id: "legend" });
+                legendToggleBtn.textContent = "Hide Legend";
+            }
             });
     // Add editor to view and hide it initially
             view.ui.add(editor, "top-right");
