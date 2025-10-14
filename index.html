@@ -77,7 +77,7 @@
             position: absolute;
             z-index: 10;
             top: 10px;
-            right: 10px;
+            right: 130px; /* Left of editDataBtn */
             background-color: #0079c1;
             color: white;
             padding: 8px 16px;
@@ -115,7 +115,8 @@
   <body>
     <!--button to edit or add data-->
     <button id="editDataBtn" class="editDataBtn">Add / Edit Data</button>
-    <button id="legendToggleBtn" class="editDataBtn" style="position: absolute; bottom: 100px; right: 10px;">Show Legend</button>
+    <button id="legendToggleBtn" class="editDataBtn" style="position: absolute; top: 10px; right: 130px;">Show Legend</button>
+
 
     <div id="viewDiv"></div>
     <!--Load ESRI modules to map-->
@@ -361,17 +362,17 @@
                 }))
             });
 
-            const legendToggleBtn = document.getElementById("legendToggleBtn");
             legendToggleBtn.addEventListener("click", () => {
-            const legendExists = view.ui.find("legend") != null;
-            if (legendExists) {
-                view.ui.remove("legend");
-                legendToggleBtn.textContent = "Show Legend";
-            } else {
-                view.ui.add(legend, { position: "bottom-right", id: "legend" });
-                legendToggleBtn.textContent = "Hide Legend";
-            }
+                const legendWidget = view.ui.find("legend");
+                if (legendWidget) {
+                    view.ui.remove(legendWidget);
+                    legendToggleBtn.textContent = "Show Legend";
+                } else {
+                    view.ui.add(legend, { position: "bottom-right", id: "legend" });
+                    legendToggleBtn.textContent = "Hide Legend";
+                }
             });
+
     // Add editor to view and hide it initially
             view.ui.add(editor, "top-right");
             editor.visible = false;
