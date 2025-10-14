@@ -1,8 +1,9 @@
-
+<!--Alex Krebs-->
+<!--Geog576 Midterm project-->
+<!--Damage Assesment Data Editing Application-->
 <!DOCTYPE html>
  <html>
   <head>
-    <!-- meta for the browser to allow for mobile first design-->
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
 
@@ -42,7 +43,7 @@
         }
 
         .esri-widget--button.esri-locate {
-            top: 60px !important; /* below search */
+            top: 60px !important;
             left: 10px !important;
             right: auto !important;
             bottom: auto !important;
@@ -75,7 +76,7 @@
             position: absolute;
             z-index: 10;
             top: 10px;
-            right: 130px; /* Left of editDataBtn */
+            right: 130px;
             background-color: #0079c1;
             color: white;
             padding: 8px 16px;
@@ -111,7 +112,7 @@
 
   </head>
   <body>
-    <!--button to edit or add data-->
+    <!--button to edit or add data and button to toggle legend-->
     <button id="editDataBtn" class="editDataBtn">Add / Edit Data</button>
     <button id="legendToggleBtn" class="editDataBtn" style="position: absolute; top: 10px; right: 130px;">Show Legend</button>
 
@@ -138,7 +139,7 @@
                 "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Damage_Assessment_Data_Review/FeatureServer/0",
                 "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Damage_Assessment_Data_Review/FeatureServer/1",
             ];
-
+             //ctv layer style/label
             const ctvRenderer = {
                 type: "unique-value",
                 field: "CTV",
@@ -184,7 +185,7 @@
                     }
                 ]
                 };
-
+            //ctv layer add to map
             const ctvLayer = new FeatureLayer({
                 url: "https://services1.arcgis.com/FDsAtKBk8Hy4cAH0/arcgis/rest/services/WI_Cities_Towns_Villages_July_2025/FeatureServer/0",
                 title: "WI Cities, Towns & Villages",
@@ -217,12 +218,12 @@
                 map.add(ctvLayer);
 
             
-
+            //county boundary layer symbol
            const countyBoundaryRenderer = {
                 type: "simple",
                 symbol: {
                     type: "simple-fill",
-                    color: [0, 0, 0, 0], // Transparent fill
+                    color: [0, 0, 0, 0], 
                     outline: {
                     color: "black",
                     width: 1.5,
@@ -230,7 +231,7 @@
                     }
                 }
                 };
-
+                //county labels
                 const countyLabelClass = {
                 labelExpressionInfo: { expression: "$feature.CTY_NAME" },
                 symbol: {
@@ -247,7 +248,7 @@
                 minScale: 3000000,
                 maxScale: 0
                 };
-
+            //adding county layer to map
             const countyBoundariesLayer = new FeatureLayer({
             url: "https://services5.arcgis.com/Ul9AyFFeFTjf08DW/arcgis/rest/services/Wisconsin_County_Boundaries_24K/FeatureServer/0",
             title: "County Boundaries",
@@ -257,7 +258,7 @@
             });
 
             map.add(countyBoundariesLayer);
-
+            //PA symbols
             const public_assistance_Renderer = {
                 type: "simple",
                 symbol: {
@@ -271,7 +272,7 @@
                 }
               }
             };
-
+            //IA symbols
             const individual_assistance_Renderer = {
                 type: "simple",
                 symbol: {
@@ -286,11 +287,11 @@
               }
             };
 
-            
+            //add damage assessmnet layers to map
             const featureLayers = layerUrls.map((url, index) => {
                 const options = { url: url };
 
-                // Assign renderer based on layer index
+                //assign damage PA/IA symbols
                 if (index === 0) {
                     options.renderer = public_assistance_Renderer;
                 } else if (index === 1) {
@@ -301,7 +302,7 @@
                 map.add(layer);
                 return layer;
                 });
-            
+            //legend widget with legend labels
             const legend = new Legend({
                 view: view,
                 layerInfos: [
@@ -323,7 +324,7 @@
                     }
                 ]
             });
-
+            //layer list 
             const layerList = new LayerList({
                 view: view,
                 });
@@ -346,7 +347,7 @@
             view.ui.add(searchWidget, {
                 position: "top-left"
             });
-            // Editor widget
+            // editor widget
             const editor = new Editor({
                 view: view,
                 layerInfos: featureLayers.map(layer => ({
@@ -357,8 +358,8 @@
                     enableDelete: true
                 }))
             });
-
-            legend.visible = false;  // Set initial visibility before adding to view
+            //hid legend at first, then place legend in bottom right with event listener to hide/show legend with toggle button
+            legend.visible = false;
             view.ui.add(legend, { position: "bottom-right", id: "legend" });
 
             const legendToggleBtn = document.getElementById("legendToggleBtn");
@@ -367,11 +368,11 @@
                 legendToggleBtn.textContent = legend.visible ? "Hide Legend" : "Show Legend";
             });
 
-    // Add editor to view and hide it initially
+    // add editor to view and hide it initially
             view.ui.add(editor, "top-right");
             editor.visible = false;
 
-            // Toggle editor visibility
+            // toggle editor visibility
             const editButton = document.getElementById("editDataBtn");
             editButton.addEventListener("click", () => {
                 editor.visible = !editor.visible;
