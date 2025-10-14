@@ -90,7 +90,33 @@
         .esri-search {
             max-width: 90vw;
         }
+        .legendToggleBtn {
+            position: absolute;
+            z-index: 10;
+            top: 50px; /* below Edit button */
+            right: 10px;
+            background-color: #0079c1;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
         }
+
+        .legendToggleBtn:hover {
+            background-color: #005a87;
+        }
+
+        @media (max-width: 480px) {
+            .legendToggleBtn {
+                top: 45px;
+                right: 8px;
+                padding: 6px 14px;
+                font-size: 13px;
+            }
+        }
+    }
      </style>
 
     <!--importing the css and libraries for esri.js-->
@@ -101,15 +127,16 @@
   <body>
     <!--button to edit or add data-->
     <button id="editDataBtn" class="editDataBtn">Add / Edit Data</button>
+    <button id="legendToggleBtn" class="legendToggleBtn">Toggle Legend</button>
     <div id="viewDiv"></div>
     <!--Load ESRI modules to map-->
     <script>
-        require([ "esri/config", "esri/Map", "esri/views/MapView","esri/widgets/Locate", "esri/widgets/Search", "esri/layers/FeatureLayer", "esri/widgets/Editor", "esri/widgets/Legend", "esri/widgets/LayerList"  ], (esriConfig, Map, MapView, Locate, Search, FeatureLayer, Editor, Legend, LayerList) => {
+        require([ "esri/config", "esri/Map", "esri/views/MapView","esri/widgets/Locate", "esri/widgets/Search", "esri/layers/FeatureLayer", "esri/widgets/Editor", "esri/widgets/Legend", "esri/widgets/LayerList", "esri/widgets/BasemapToggle", "esri/widgets/BasemapGallery"  ], (esriConfig, Map, MapView, Locate, Search, FeatureLayer, Editor, Legend, LayerList, BasemapToggle, BasemapGallery) => {
             //my api key
             esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurGfXZVUftvXPbMTy0-GRI5ojxO2vkMfNJUc6LuBspKHa7_8adflxgEqdwsbZT_y64VwrYucfHRmak8KqEqK9KojibVke2tZigq1P4aWdi2ARSVyPCfBRuJPzRCNXkKqmMNKADPP407Mua44OxDb8aE4N4-3Rp6rAphNctReWb-FZ2fqziGxRK72mw3mmQSZtV-5YfnA0EHXD4rWw1OwRwQU-VcnibfCw_FYsDSK_eK6lAT1_77qtARkK";
-            //ESRI satellite imagery basemap
+            //ESRI streets imagery basemap
             const map = new Map({
-                basemap: "satellite"
+                basemap: "streets"
             });
             //map parameters centered and zoomed on Kendall, WI
             const view = new MapView({
@@ -310,10 +337,11 @@
             });
 
             view.ui.add(legend, "bottom-right");
+                legend.visible = true;
 
             const layerList = new LayerList({
                 view: view,
-                });
+            });
 
                 view.ui.add(layerList, "bottom-left"); 
 
@@ -333,6 +361,12 @@
             view.ui.add(searchWidget, {
                 position: "top-left"
             });
+
+            const basemapToggle = new BasemapToggle({
+                view: view,
+                nextBasemap: "satellite"
+            });
+            view.ui.add(basemapToggle, "top-left");
             // Editor widget
             const editor = new Editor({
                 view: view,
@@ -343,6 +377,12 @@
                     enableUpdate: true,
                     enableDelete: true
                 }))
+            });
+
+            const legendToggleBtn = document.getElementById("legendToggleBtn");
+            legendToggleBtn.addEventListener("click", () => {
+                legend.visible = !legend.visible;
+                legendToggleBtn.textContent = legend.visible ? "Hide Legend" : "Show Legend";
             });
     // Add editor to view and hide it initially
             view.ui.add(editor, "top-right");
