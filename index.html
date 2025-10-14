@@ -4,7 +4,7 @@
 <!DOCTYPE html>
  <html>
   <head>
-    <!-- meta for the browswer to allow for mobile first design-->
+    <!-- meta for the browser to allow for mobile first design-->
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
 
@@ -318,7 +318,7 @@
                 ]
             });
 
-            view.ui.add(legend, "bottom-right");
+            view.ui.add(legend, { position: "bottom-right", id: "legend" });
 
             const layerList = new LayerList({
                 view: view,
@@ -356,12 +356,12 @@
 
             const legendToggleBtn = document.getElementById("legendToggleBtn");
             legendToggleBtn.addEventListener("click", () => {
-                const isVisible = view.ui.find("legend") !== undefined;
+                const isVisible = view.ui.find("legend") != null;
                 if (isVisible) {
                     view.ui.remove(legend);
                     legendToggleBtn.textContent = "Show Legend";
                 } else {
-                    view.ui.add(legend, "bottom-right");
+                    view.ui.add(legend, { position: "bottom-right", id: "legend" });
                     legendToggleBtn.textContent = "Hide Legend";
                 }
             });
