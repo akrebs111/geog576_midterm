@@ -362,15 +362,13 @@
                 }))
             });
 
+            legend.visible = false;
+            view.ui.add(legend, { position: "bottom-right", id: "legend" });
+
+            const legendToggleBtn = document.getElementById("legendToggleBtn");
             legendToggleBtn.addEventListener("click", () => {
-                const legendWidget = view.ui.find("legend");
-                if (legendWidget) {
-                    view.ui.remove(legendWidget);
-                    legendToggleBtn.textContent = "Show Legend";
-                } else {
-                    view.ui.add(legend, { position: "bottom-right", id: "legend" });
-                    legendToggleBtn.textContent = "Hide Legend";
-                }
+                legend.visible = !legend.visible;
+                legendToggleBtn.textContent = legend.visible ? "Hide Legend" : "Show Legend";
             });
 
     // Add editor to view and hide it initially
