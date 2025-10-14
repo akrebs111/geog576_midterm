@@ -1,5 +1,3 @@
-<!--add locate my position button, make mobile friendly-->
-
 
 <!DOCTYPE html>
  <html>
@@ -326,8 +324,6 @@
                 ]
             });
 
-            view.ui.add(legend, { position: "bottom-right", id: "legend" });
-
             const layerList = new LayerList({
                 view: view,
                 });
@@ -362,7 +358,7 @@
                 }))
             });
 
-            legend.visible = false;
+            legend.visible = false;  // Set initial visibility before adding to view
             view.ui.add(legend, { position: "bottom-right", id: "legend" });
 
             const legendToggleBtn = document.getElementById("legendToggleBtn");
